@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux'
 import { Table, Spinner, Alert } from 'react-bootstrap'
 
-function FileTable () {
+function FileContentTable () {
   const { fileContent, loading, error } = useSelector((state) => state.files)
 
   if (loading) {
@@ -69,4 +69,4 @@ function FileTable () {
   )
 }
 
-export default FileTable
+export default FileContentTable

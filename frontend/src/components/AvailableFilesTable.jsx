@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux'
 import { Table, Spinner, Alert, Button } from 'react-bootstrap'
 
-function FileListTable ({ onSelect }) {
+function AvailableFilesTable ({ onSelect }) {
   const { availableFiles, listLoading, listError } = useSelector((state) => state.files)
 
   if (listLoading) {
@@ -36,4 +36,4 @@ function FileListTable ({ onSelect }) {
   )
 }
 
-export default FileListTable
+export default AvailableFilesTable

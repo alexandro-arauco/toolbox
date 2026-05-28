@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { configureStore } from '@reduxjs/toolkit'
 import '@testing-library/jest-dom'
-import FileTable from '../src/components/FileTable'
+import FileContentTable from '../src/components/FileContentTable'
 import filesReducer from '../src/store/filesSlice'
 
 function renderWithStore (preloadedState) {
@@ -12,14 +12,14 @@ function renderWithStore (preloadedState) {
   })
   return render(
     <Provider store={store}>
-      <FileTable />
+      <FileContentTable />
     </Provider>
   )
 }
 
 const base = { fileContent: [], availableFiles: [], cachedFileName: null, loading: false, listLoading: false, error: null, listError: null }
 
-describe('FileTable', () => {
+describe('FileContentTable', () => {
   it('renders table with valid data', () => {
     const fileContent = [{
       file: 'file1.csv',
