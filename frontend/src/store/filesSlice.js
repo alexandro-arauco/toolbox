@@ -1,12 +1,12 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { fetchFilesData, fetchFileList } from '../services/api'
+import { fetchFileContent, fetchAvailableFiles } from '../services/api'
 
-export const loadFiles = createAsyncThunk('files/loadFiles', async (fileName) => {
-  return fetchFilesData(fileName)
+export const loadFileContent = createAsyncThunk('files/loadFileContent', async (fileName) => {
+  return fetchFileContent(fileName)
 })
 
-export const loadFileList = createAsyncThunk('files/loadFileList', async () => {
-  return fetchFileList()
+export const loadAvailableFiles = createAsyncThunk('files/loadAvailableFiles', async () => {
+  return fetchAvailableFiles()
 })
 
 const filesSlice = createSlice({
@@ -23,29 +23,29 @@ const filesSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(loadFiles.pending, (state) => {
+      .addCase(loadFileContent.pending, (state) => {
         state.loading = true
         state.error = null
         state.fileContent = []
       })
-      .addCase(loadFiles.fulfilled, (state, action) => {
+      .addCase(loadFileContent.fulfilled, (state, action) => {
         state.loading = false
         state.fileContent = action.payload
         state.cachedFileName = action.meta.arg
       })
-      .addCase(loadFiles.rejected, (state, action) => {
+      .addCase(loadFileContent.rejected, (state, action) => {
         state.loading = false
         state.error = action.error.message
       })
-      .addCase(loadFileList.pending, (state) => {
+      .addCase(loadAvailableFiles.pending, (state) => {
         state.listLoading = true
         state.listError = null
       })
-      .addCase(loadFileList.fulfilled, (state, action) => {
+      .addCase(loadAvailableFiles.fulfilled, (state, action) => {
         state.listLoading = false
         state.availableFiles = action.payload
       })
-      .addCase(loadFileList.rejected, (state, action) => {
+      .addCase(loadAvailableFiles.rejected, (state, action) => {
         state.listLoading = false
         state.listError = action.error.message
       })

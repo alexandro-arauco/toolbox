@@ -2,7 +2,7 @@ import { render, screen, fireEvent } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { configureStore } from '@reduxjs/toolkit'
 import '@testing-library/jest-dom'
-import FileListTable from '../src/components/FileListTable'
+import AvailableFilesTable from '../src/components/AvailableFilesTable'
 import filesReducer from '../src/store/filesSlice'
 
 const base = { fileContent: [], cachedFileName: null, availableFiles: [], loading: false, listLoading: false, error: null, listError: null }
@@ -12,10 +12,10 @@ function renderWithStore (availableFiles = [], onSelect = jest.fn()) {
     reducer: { files: filesReducer },
     preloadedState: { files: { ...base, availableFiles } }
   })
-  return { onSelect, ...render(<Provider store={store}><FileListTable onSelect={onSelect} /></Provider>) }
+  return { onSelect, ...render(<Provider store={store}><AvailableFilesTable onSelect={onSelect} /></Provider>) }
 }
 
-describe('FileListTable', () => {
+describe('AvailableFilesTable', () => {
   it('renders File Name and Action columns', () => {
     renderWithStore(['file1.csv'])
     expect(screen.getByText('File Name')).toBeInTheDocument()
@@ -39,7 +39,7 @@ describe('FileListTable', () => {
       reducer: { files: filesReducer },
       preloadedState: { files: { ...base, listLoading: true } }
     })
-    render(<Provider store={store}><FileListTable onSelect={jest.fn()} /></Provider>)
+    render(<Provider store={store}><AvailableFilesTable onSelect={jest.fn()} /></Provider>)
     expect(screen.getByRole('status')).toBeInTheDocument()
   })
 })
