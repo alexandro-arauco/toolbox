@@ -34,16 +34,20 @@ router.get('/data', async (req, res) => {
   try {
     const { fileName } = req.query
 
-    if (!fileName) {
-      return res.status(400).json({ error: 'Missing required query parameter: fileName.' })
-    }
+    const fileNames = fileName ? [fileName] : await getFileList()
 
-    const content = await getFileContent(fileName)
-    if (content === null) {
-      return res.status(404).json({ error: `File '${fileName}' was not found or could not be retrieved.` })
-    }
+    const results = await Promise.allSettled(
+      fileNames.map(async (file) => {
+        const content = await getFileContent(file)
+        return buildFileResult(file, content)
+      })
+    )
 
-    res.json([buildFileResult(fileName, content)])
+    const data = results
+      .filter((r) => r.status === 'fulfilled')
+      .map((r) => r.value)
+
+    res.json(data)
   } catch (err) {
     res.status(500).json({ error: err.message })
   }
