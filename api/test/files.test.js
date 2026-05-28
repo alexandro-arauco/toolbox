@@ -99,7 +99,11 @@ describe('GET /files/data', () => {
     expect(res.body[0]).to.have.property('error').that.includes('empty')
   })
 
-  it('filters by ?fileName= without fetching the file list', async () => {
+  it('filters by ?fileName= queryparam', async () => {
+    nock(EXTERNAL_BASE)
+      .get('/v1/secret/files')
+      .reply(200, { files: ['file1.csv', 'file2.csv'] })
+
     nock(EXTERNAL_BASE)
       .get('/v1/secret/file/file1.csv')
       .reply(200, VALID_CSV)
